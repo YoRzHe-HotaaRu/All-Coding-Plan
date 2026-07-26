@@ -116,6 +116,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body.is-scroll-locked {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 img {
   max-width: 100%;
 }
@@ -154,19 +163,16 @@ select {
 .wallpaper-image {
   position: absolute;
   inset: -8%;
-  background:
-    url("../assets/anime-wallpaper.png") center / cover no-repeat;
-  transform: scale(1.08);
+  background: url("../assets/anime-wallpaper.webp") center / cover no-repeat;
+  transform: scale(1.06);
   animation: wallpaper-pan 48s ease-in-out infinite alternate;
-  will-change: transform;
 }
 
 .wallpaper-blur {
   position: absolute;
   inset: 0;
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  background: rgba(242, 245, 240, 0.28);
+  /* Solid wash only: live backdrop-filter here re-blurs a moving layer every frame */
+  background: rgba(242, 245, 240, 0.52);
 }
 
 .wallpaper-wash {
@@ -191,7 +197,7 @@ select {
   position: fixed;
   inset: 0;
   z-index: 50;
-  opacity: 0.22;
+  opacity: 0.12;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
@@ -207,9 +213,7 @@ select {
   gap: 1rem;
   height: var(--header-h);
   padding: 0 clamp(1.25rem, 4vw, 3rem);
-  background: rgba(250, 252, 248, 0.55);
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  background: rgba(250, 252, 248, 0.92);
   border-bottom: 1px solid rgba(255, 255, 255, 0.45);
   box-shadow: 0 8px 30px rgba(16, 25, 18, 0.04);
 }
@@ -381,18 +385,15 @@ select {
 .hero-bg {
   position: absolute;
   inset: -4%;
-  background: url("../assets/hero-anime.png") center / cover no-repeat;
+  background: url("../assets/hero-anime.webp") center / cover no-repeat;
   transform-origin: 65% 40%;
   animation: hero-ken 42s ease-in-out infinite alternate;
-  will-change: transform;
 }
 
 .hero-bg-soft {
   position: absolute;
   inset: 0;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  background: rgba(255, 248, 240, 0.12);
+  background: rgba(255, 248, 240, 0.16);
 }
 
 .hero-vignette {
@@ -766,7 +767,6 @@ select {
     radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), transparent 40%),
     radial-gradient(circle at 50% 50%, rgba(11, 110, 79, 0.35), rgba(255, 107, 53, 0.18) 70%, transparent);
   border: 1px solid rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(8px);
   box-shadow: 0 12px 40px rgba(16, 25, 18, 0.12);
   animation: core-breathe 4.5s ease-in-out infinite;
 }
@@ -935,8 +935,7 @@ select {
 }
 
 .hero-cta .btn-ghost {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .strip-meta {
@@ -947,10 +946,8 @@ select {
   gap: 1rem 1.75rem;
   align-items: center;
   padding: 1.15rem clamp(1.25rem, 4vw, 3rem);
+  background: rgba(255, 255, 255, 0.72);
   border-top: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .meta-pill {
@@ -1002,9 +999,7 @@ select {
   position: relative;
   z-index: 1;
   border-block: 1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.72);
   overflow: hidden;
 }
 
@@ -1101,9 +1096,7 @@ select {
 .filter-chip {
   appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.82);
   color: var(--ink-soft);
   padding: 0.55rem 0.95rem;
   border-radius: 999px;
@@ -1134,9 +1127,7 @@ select {
   gap: 0.55rem;
   padding: 0.65rem 0.95rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.65);
   color: var(--muted);
   min-width: min(100%, 280px);
@@ -1203,9 +1194,9 @@ select {
   gap: 0;
   padding: 0;
   min-height: 100%;
-  background: rgba(255, 255, 255, 0.58);
-  backdrop-filter: blur(16px) saturate(1.25);
-  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 26px;
   box-shadow:
@@ -1274,18 +1265,7 @@ select {
   bottom: -40px;
   background: color-mix(in srgb, var(--plan-color, var(--accent)) 18%, transparent);
   filter: blur(2px);
-  animation: rail-glow 5s ease-in-out infinite alternate;
-}
-
-@keyframes rail-glow {
-  from {
-    opacity: 0.45;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0.85;
-    transform: scale(1.15);
-  }
+  opacity: 0.65;
 }
 
 .plan-rail-label {
@@ -1484,8 +1464,7 @@ select {
   text-align: center;
   color: var(--muted);
   padding: 3rem 1rem;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.82);
   border-radius: var(--radius);
 }
 
@@ -1498,9 +1477,7 @@ select {
   overflow-x: auto;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: var(--shadow);
 }
 
@@ -1588,9 +1565,7 @@ select {
 .guide-card {
   padding: 1.4rem 1.5rem;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: var(--shadow);
   transition: transform 0.35s var(--ease);
@@ -1629,9 +1604,7 @@ select {
 .faq-item {
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9);
   padding: 0.25rem 1.15rem;
   transition: border-color 0.25s var(--ease);
 }
@@ -1681,9 +1654,7 @@ select {
   gap: 1.5rem;
   padding: 2.5rem clamp(1.25rem, 4vw, 3rem) 3rem;
   border-top: 1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .footer-brand {
@@ -1727,8 +1698,7 @@ select {
 }
 
 .plan-dialog::backdrop {
-  background: rgba(12, 20, 15, 0.45);
-  backdrop-filter: blur(6px);
+  background: rgba(12, 20, 15, 0.55);
   animation: fade-in 0.25s ease;
 }
 
@@ -1752,6 +1722,8 @@ select {
   max-height: calc(100vh - 2rem);
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 1.75rem clamp(1.25rem, 3vw, 2.4rem) 2rem 1.75rem;
   animation: dialog-up 0.4s var(--ease);
   scrollbar-width: thin;
@@ -1988,6 +1960,78 @@ select {
   transform: translateY(0);
 }
 
+/* Pause all decorative motion when tab is hidden */
+html.is-paused *,
+html.is-paused *::before,
+html.is-paused *::after {
+  animation-play-state: paused !important;
+}
+
+/*
+  Mobile / touch performance profile.
+  Continuous pans, petals, sparkles, orbits, and marquee keep the GPU busy
+  even when the page is idle. Kill them on phones and tablets.
+*/
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  .grain {
+    display: none;
+  }
+
+  .wallpaper-image {
+    inset: 0;
+    transform: none;
+    animation: none;
+    background-image: url("../assets/anime-wallpaper-sm.webp");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-bg {
+    inset: 0;
+    animation: none;
+    transform: none;
+    background-image: url("../assets/hero-anime-sm.webp");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-sheen,
+  .hero-beam,
+  .petals,
+  .sparkles,
+  .float-shape,
+  .orbit-core-pulse {
+    display: none !important;
+  }
+
+  .orbit-ring,
+  .orbit-core,
+  .logo-mark,
+  .meta-dot,
+  .hero-title-line::after,
+  .marquee-track {
+    animation: none !important;
+  }
+
+  .orbit-stage {
+    opacity: 0.55;
+  }
+
+  .plan-card {
+    animation: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .plan-card:hover,
+  .plan-card:active {
+    transform: none;
+  }
+
+  .guide-card:hover {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2013,7 +2057,15 @@ select {
   .float-shape,
   .hero-sheen,
   .hero-beam,
-  .hero-title-line::after {
+  .hero-title-line::after,
+  .logo-mark,
+  .meta-dot {
     animation: none !important;
+  }
+
+  .petals,
+  .sparkles,
+  .grain {
+    display: none !important;
   }
 }

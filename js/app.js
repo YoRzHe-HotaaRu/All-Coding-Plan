@@ -249,6 +249,7 @@
       </div>
     `;
 
+    lockBodyScroll();
     if (typeof dialog.showModal === "function") {
       dialog.showModal();
     } else {
@@ -256,11 +257,28 @@
     }
   }
 
+  let scrollLockY = 0;
+
+  function lockBodyScroll() {
+    if (document.body.classList.contains("is-scroll-locked")) return;
+    scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.classList.add("is-scroll-locked");
+    document.body.style.top = `-${scrollLockY}px`;
+  }
+
+  function unlockBodyScroll() {
+    if (!document.body.classList.contains("is-scroll-locked")) return;
+    document.body.classList.remove("is-scroll-locked");
+    document.body.style.top = "";
+    window.scrollTo(0, scrollLockY);
+  }
+
   function closeDialog() {
     if (typeof dialog.close === "function") {
       dialog.close();
     } else {
       dialog.removeAttribute("open");
+      unlockBodyScroll();
     }
   }
 
@@ -333,6 +351,7 @@
   });
 
   dialogClose.addEventListener("click", closeDialog);
+  dialog.addEventListener("close", unlockBodyScroll);
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) closeDialog();
   });
@@ -340,9 +359,24 @@
     if (e.key === "Escape" && dialog.open) closeDialog();
   });
 
+  /* Stop touch scroll chaining from dialog into the page behind it */
+  dialog.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.target === dialog) e.preventDefault();
+    },
+    { passive: false }
+  );
+
   renderFilters();
   renderCards();
   renderCompare();
   updateCounts();
   setupReveal();
+
+  const syncMotionPause = () => {
+    document.documentElement.classList.toggle("is-paused", document.hidden);
+  };
+  document.addEventListener("visibilitychange", syncMotionPause);
+  syncMotionPause();
 })();
