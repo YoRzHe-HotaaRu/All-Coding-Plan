@@ -257,20 +257,20 @@
     }
   }
 
-  let scrollLockY = 0;
+  let scrollLocked = false;
 
   function lockBodyScroll() {
-    if (document.body.classList.contains("is-scroll-locked")) return;
-    scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+    if (scrollLocked) return;
+    scrollLocked = true;
+    document.documentElement.classList.add("is-scroll-locked");
     document.body.classList.add("is-scroll-locked");
-    document.body.style.top = `-${scrollLockY}px`;
   }
 
   function unlockBodyScroll() {
-    if (!document.body.classList.contains("is-scroll-locked")) return;
+    if (!scrollLocked) return;
+    scrollLocked = false;
+    document.documentElement.classList.remove("is-scroll-locked");
     document.body.classList.remove("is-scroll-locked");
-    document.body.style.top = "";
-    window.scrollTo(0, scrollLockY);
   }
 
   function closeDialog() {
@@ -280,6 +280,13 @@
       dialog.removeAttribute("open");
       unlockBodyScroll();
     }
+  }
+
+  function onLockTouchMove(e) {
+    if (!scrollLocked) return;
+    const inner = dialog.querySelector(".dialog-inner");
+    if (inner && inner.contains(e.target)) return;
+    e.preventDefault();
   }
 
   function updateCounts() {
@@ -358,15 +365,7 @@
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && dialog.open) closeDialog();
   });
-
-  /* Stop touch scroll chaining from dialog into the page behind it */
-  dialog.addEventListener(
-    "touchmove",
-    (e) => {
-      if (e.target === dialog) e.preventDefault();
-    },
-    { passive: false }
-  );
+  document.addEventListener("touchmove", onLockTouchMove, { passive: false });
 
   renderFilters();
   renderCards();

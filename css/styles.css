@@ -37,6 +37,11 @@ html {
   scrollbar-color: color-mix(in srgb, var(--accent) 70%, #7a9486) transparent;
 }
 
+html.is-scroll-locked {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 /* Custom scrollbar — WebKit */
 ::-webkit-scrollbar {
   width: 12px;
@@ -117,10 +122,6 @@ body {
 }
 
 body.is-scroll-locked {
-  position: fixed;
-  left: 0;
-  right: 0;
-  width: 100%;
   overflow: hidden;
   overscroll-behavior: none;
 }
