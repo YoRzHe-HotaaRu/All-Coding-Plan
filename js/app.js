@@ -255,6 +255,8 @@
     } else {
       dialog.setAttribute("open", "");
     }
+    const inner = dialog.querySelector(".dialog-inner");
+    if (inner) inner.scrollTop = 0;
   }
 
   let scrollLocked = false;

@@ -1688,14 +1688,24 @@ select {
 
 /* Dialog */
 .plan-dialog {
+  position: fixed;
+  inset: 0;
   width: min(920px, calc(100vw - 2rem));
+  max-width: calc(100vw - 1.5rem);
   max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
   border: 0;
   padding: 0;
   border-radius: calc(var(--radius) + 4px);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.96);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+}
+
+.plan-dialog[open] {
+  display: flex;
+  flex-direction: column;
 }
 
 .plan-dialog::backdrop {
@@ -1714,18 +1724,19 @@ select {
 
 .dialog-inner {
   position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
   background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   border-radius: 0;
   border: 0;
   box-shadow: none;
-  max-height: calc(100vh - 2rem);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding: 1.75rem clamp(1.25rem, 3vw, 2.4rem) 2rem 1.75rem;
+  padding: 1.75rem clamp(1.25rem, 3vw, 2.4rem)
+    max(2rem, env(safe-area-inset-bottom, 0px)) 1.75rem;
   animation: dialog-up 0.4s var(--ease);
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--accent) 55%, #9bb5a8) transparent;
@@ -1778,13 +1789,14 @@ select {
 
 .dialog-close {
   position: absolute;
-  top: 0.85rem;
-  right: 0.85rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 5;
   width: 40px;
   height: 40px;
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: var(--bg);
+  background: rgba(250, 252, 248, 0.95);
   font-size: 1.4rem;
   line-height: 1;
   cursor: pointer;
@@ -1799,7 +1811,7 @@ select {
 .dialog-header {
   display: grid;
   gap: 0.75rem;
-  padding-right: 2.5rem;
+  padding-right: 2.75rem;
   margin-bottom: 1.5rem;
 }
 
@@ -1830,6 +1842,54 @@ select {
   flex-wrap: wrap;
   gap: 0.65rem;
   margin-top: 0.35rem;
+}
+
+@media (max-width: 700px) {
+  .plan-dialog {
+    width: calc(100vw - 1rem);
+    max-width: none;
+    /* svh = visible height with browser chrome; avoids card sitting under the address bar */
+    max-height: calc(100dvh - 1rem);
+    max-height: calc(100svh - 1rem);
+    margin: max(0.5rem, env(safe-area-inset-top, 0px)) auto
+      max(0.5rem, env(safe-area-inset-bottom, 0px));
+    border-radius: 22px;
+  }
+
+  .dialog-inner {
+    padding: 1.15rem 1rem max(1.35rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .dialog-close {
+    top: 0.55rem;
+    right: 0.55rem;
+    width: 36px;
+    height: 36px;
+  }
+
+  .dialog-header {
+    margin-bottom: 1.15rem;
+    gap: 0.55rem;
+    padding-right: 2.5rem;
+  }
+
+  .dialog-header h2 {
+    font-size: clamp(1.45rem, 7vw, 1.85rem);
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dialog-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dialog-close:hover {
+    transform: none;
+  }
 }
 
 .tier-grid {
