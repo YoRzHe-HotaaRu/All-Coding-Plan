@@ -286,6 +286,7 @@
 
   function onLockTouchMove(e) {
     if (!scrollLocked) return;
+    if (dialogClose.contains(e.target)) return;
     const inner = dialog.querySelector(".dialog-inner");
     if (inner && inner.contains(e.target)) return;
     e.preventDefault();
@@ -359,7 +360,20 @@
     openPlan(btn.dataset.open);
   });
 
-  dialogClose.addEventListener("click", closeDialog);
+  dialogClose.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeDialog();
+  });
+  dialogClose.addEventListener(
+    "touchend",
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeDialog();
+    },
+    { passive: false }
+  );
   dialog.addEventListener("close", unlockBodyScroll);
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) closeDialog();
